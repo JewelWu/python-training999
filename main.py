@@ -9,7 +9,7 @@ def home():
 
 @app.route("/crawler")
 def crawler():
-    return tm.test()
-
+    return tm.crawPages()
+    
 if __name__ == "__main__":      # 若以主程式來執行
     app.run()                  # 啟動 Server
