@@ -1,4 +1,6 @@
 from flask import Flask
+import crawler.training_material as tm
+
 app = Flask(__name__)      # __name__ 表示目前模組
 
 @app.route('/')
@@ -7,7 +9,7 @@ def home():
 
 @app.route("/crawler")
 def crawler():
-    return "This is crawler page."
+    return tm.test()
 
 if __name__ == "__main__":      # 若以主程式來執行
     app.run()                  # 啟動 Server
