@@ -24,6 +24,7 @@ def getPageData(url):
     
 org_url = "https://chineseandsociety.blogspot.com/"
 import bs4
+import pandas as pd
 
 def crawPages():
     data = getPageData(org_url)
@@ -39,6 +40,13 @@ def crawPages():
         # 抓取該月份的 post list, 取 post 的文字和 href
         posts = postRoot.select("ul.posts > li a")
         for post in posts:
-            all_post_list = all_post_list + "name:{0},url:{1}\n".format(post.string, post["href"])
+            all_post_list = all_post_list + "name:{0},url:{1},".format(post.string, post["href"])
 
-    return all_post_list
+        # df = pd.DataFrame({
+        #     "name":"http://www.google.com",
+        #     "name2":"http://www.yahoo.com"
+        # }, index=[0])
+        #df = pd.DataFrame(all_post_list)
+        df = pd.read_csv(all_post_list)
+        
+    return df.iloc[0].to_string()
