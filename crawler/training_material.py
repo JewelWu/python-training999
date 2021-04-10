@@ -1,2 +1,2 @@
 def test():
-    print("This is crawler/test.")
+    return "This is crawler/test."
