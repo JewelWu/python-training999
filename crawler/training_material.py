@@ -32,7 +32,7 @@ def crawPages():
 
     # 從網誌封存清單中找出所有月份的 post links
     PostMonths = root.select("li > ul a.post-count-link")
-    all_post_list = ""
+    dic_allpost = {"title":[], "url":[]}
     for postLink in PostMonths:
         postsPage = getPageData(postLink["href"])
         postRoot = bs4.BeautifulSoup(postsPage, "html.parser")
@@ -40,13 +40,16 @@ def crawPages():
         # 抓取該月份的 post list, 取 post 的文字和 href
         posts = postRoot.select("ul.posts > li a")
         for post in posts:
-            all_post_list = all_post_list + "name:{0},url:{1},".format(post.string, post["href"])
+            dic_allpost["title"].append(post.string)
+            dic_allpost["url"].append(post["href"])
+            #all_post_list = all_post_list + "name:{0},url:{1},".format(post.string, post["href"])
 
-        # df = pd.DataFrame({
-        #     "name":"http://www.google.com",
-        #     "name2":"http://www.yahoo.com"
-        # }, index=[0])
-        #df = pd.DataFrame(all_post_list)
-        df = pd.read_csv(all_post_list)
-        
-    return df.iloc[0].to_string()
+    str = procData(dic_allpost)
+    return str
+
+def procData(dict):
+    df = pd.DataFrame(dict)
+    condition = df["title"].str.contains("康軒版")
+    data = df[condition]
+
+    return data["title"].to_string()
